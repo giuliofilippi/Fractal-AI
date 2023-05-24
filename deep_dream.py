@@ -31,7 +31,6 @@ def deepdream(image, model, layers, iterations, lr, octave_scale, num_octaves):
     for octave, octave_image in enumerate(octave_images[::-1]):
         for _ in range(iterations):
             outputs = model(octave_image)
-            print(outputs)
             loss = torch.zeros(1, device=device)
             for layer in layers:
                 target_features = outputs[0][layer]
