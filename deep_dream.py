@@ -36,6 +36,7 @@ def deepdream(image, model, layers, iterations, lr, octave_scale, num_octaves):
                 target_features = outputs[0][layer]
                 loss += target_features.norm()
 
+            octave_image.retain_grad()
             model.zero_grad()
             loss.backward()
             detail = lr * octave_image.grad.data / octave_image.grad.data.norm() + detail
@@ -50,7 +51,6 @@ model = models.vgg19(pretrained=True).features
 model.eval()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
-print(model)
 
 # Layers to use for DeepDream
 layers = [4, 9, 18, 27, 36]
