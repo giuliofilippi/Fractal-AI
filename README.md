@@ -3,7 +3,7 @@ The goal is for this to become a research project, exploring the possible links 
 
 Some possible ideas are:
 - Exploring Neural Networks with Fractal architectures
-- Training Neural Networks to recognize Fracgtal patterns
+- Training Neural Networks to recognize Fractal patterns
 - Enhancing Fractal features in input images using DeepDream like methods
 
 # DeepDream
