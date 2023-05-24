@@ -8,7 +8,8 @@ from PIL import Image
 def load_image(image_path, transform=None):
     image = Image.open(image_path)
     if transform is not None:
-        image = transform(image).unsqueeze(0)
+        to_tensor_transform = transforms.ToTensor()
+        image = to_tensor_transform(transform(image)).unsqueeze(0)
     return image
 
 def save_image(image, output_path):
@@ -28,7 +29,7 @@ def deepdream(image, model, layers, iterations, lr, octave_scale, num_octaves):
         octave_images.append(high_freq)
 
     detail = torch.zeros_like(octave_images[-1])
-    for octave, octave_image in enumerate(octave_images[::-1]):
+    for octave_image in octave_images[::-1]:
         for _ in range(iterations):
             outputs = model(octave_image)
             loss = torch.zeros(1, device=device)
@@ -38,7 +39,7 @@ def deepdream(image, model, layers, iterations, lr, octave_scale, num_octaves):
 
             octave_image.retain_grad()
             model.zero_grad()
-            loss.backward()
+            loss.backward(retain_graph=True)
             detail = lr * octave_image.grad.data / octave_image.grad.data.norm() + detail
 
             octave_image = octave_image + detail
@@ -52,21 +53,20 @@ model.eval()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
-# Layers to use for DeepDream
-layers = [4, 9, 18, 27, 36]
-
 # DeepDream parameters
-iterations = 20
+layers = [18] #[4, 9, 18, 27, 36]
+iterations = 10 #20
 lr = 0.05
 octave_scale = 1.4
-num_octaves = 10
+num_octaves = 4 #10
+resize_transform = transforms.Resize((224, 224))
 
 # Load and preprocess the input image
-input_image = load_image('inputs/the-pearl-skyscraper.jpg', transform=transforms.ToTensor())
+input_image = load_image('inputs/cat-and-dog.jpg', transform=resize_transform)
 input_image = input_image.to(device)
 
 # Apply DeepDream
 output_image = deepdream(input_image, model, layers, iterations, lr, octave_scale, num_octaves)
 
 # Save the output image
-save_image(output_image, 'outputs/output_image_1.jpg')
+save_image(output_image, 'outputs/cat-and-dog.jpg')
