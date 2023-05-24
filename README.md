@@ -2,7 +2,7 @@
 The goal is for this to become a research project, exploring the possible links between AI and Fractal Geometry.
 
 Some possible ideas are:
-- Exploring Neural Networks with Fractal architecture
+- Exploring Neural Networks with Fractal architectures
 - Training Neural Networks to recognize Fracgtal patterns
 - Enhancing Fractal features in input images using DeepDream like methods
 
