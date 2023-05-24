@@ -1,5 +1,5 @@
 # Fractal-AI
-A repo for the exploration of links between AI and Fractal Geometry. The goal is for this to become a research project, exploring the possible links between AI and Fractal Geometry.
+The goal is for this to become a research project, exploring the possible links between AI and Fractal Geometry.
 
 Some possible ideas are:
 - Exploring Neural Networks with Fractal architecture
